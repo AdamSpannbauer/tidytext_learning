@@ -21,18 +21,18 @@ Playing with fivethirtyeight trump tweet data to learn more about tidytext capab
 
 ### most positive/negative tweets
 #### top 3 positive
-  * Marco Rubio is a member of the Gang Of Eight or, very weak on stopping illegal immigration. Only changed when poll numbers crashed.
-
-  * Why would anyone in Kentucky listen to failed presidential candidate Rand Paul re: caucus. Made a fool of himself (1%.) KY his 2nd choice!
-
-  * Yet another weak hit by a candidate with a failing campaign. Will Jeb sink as low in the polls as the others who have gone after me?
- 
-#### top 3 negative
  * Wow, every poll said I won the debate last night. Great honor!
 
  * Just found out I won the Rockingham County Republican Booth Straw Poll at the Deerfield Fair in New Hampshire this past weekend. 39% ---Wow!
 
  * .@JebBush has spent  $63,000,000 and is at the bottom of the polls. I have spent almost nothing and am at the top. WIN!  @hughhewitt 
+
+#### top 3 negative
+  * Marco Rubio is a member of the Gang Of Eight or, very weak on stopping illegal immigration. Only changed when poll numbers crashed.
+
+  * Why would anyone in Kentucky listen to failed presidential candidate Rand Paul re: caucus. Made a fool of himself (1%.) KY his 2nd choice!
+
+  * Yet another weak hit by a candidate with a failing campaign. Will Jeb sink as low in the polls as the others who have gone after me?
 
 ### ggplot2 results 
 ##### (score represents sentiment using `tidytext::get_sentiments("afinn")`)
