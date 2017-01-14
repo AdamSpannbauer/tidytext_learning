@@ -1,5 +1,5 @@
 library(tidytext)
-library(SnowballC)
+library(hunspell)
 library(tidyverse)
 library(stringr)
 library(fivethirtyeight)
@@ -13,16 +13,26 @@ str(trump_twitter)
 (minDate <- min(date(trump_twitter$created_at)))
 (maxDate <- max(date(trump_twitter$created_at)))
 
+# create vectorised stemming function using hunspell ----------------------------------
+my_hunspell_stem <- function(token) {
+  stem_token <- hunspell_stem(token)[[1]]
+  if (length(stem_token) == 0) return(token) else return(stem_token[1])
+}
+vec_hunspell_stem <- Vectorize(my_hunspell_stem, "token")
+
 # clean text by tokenizing & rm urls/stopwords ----------------------------------
 trump_tokens <- trump_twitter %>% 
   mutate(text = str_replace_all(text, 
                                 pattern=regex("(www|https?[^\\s]+)"), 
                                 replacement = "")) %>% #rm urls
+  mutate(text = str_replace_all(text,
+                                pattern = "[[:digit:]]",
+                                replacement = "")) %>% 
   tidytext::unnest_tokens(tokens, text) %>% #tokenize
-  mutate(tokens = wordStem(tokens)) %>% 
-  filter(!(tokens %in% c(stop_words$word, wordStem(stop_words$word)))) #rm stopwords
+  mutate(tokens = vec_hunspell_stem(tokens)) %>% 
+  filter(!(tokens %in% stop_words$word)) #rm stopwords
 
-# get most used words in trumps tweets ----------------------------------
+# get most used words in trumps tweets -----------------------------------------------
 most_used_words <- trump_tokens %>% 
   group_by(tokens) %>% 
   summarise(n=n()) %>% 
@@ -31,18 +41,17 @@ most_used_words <- trump_tokens %>%
 
 # sentiment analysis -------------------------------------------------------------
 sentimentDf <- get_sentiments("afinn") %>% 
-  mutate(word = wordStem(word)) %>% 
+  mutate(word = vec_hunspell_stem(word)) %>% 
   bind_rows(get_sentiments("afinn"))
 trump_sentiment <- trump_tokens %>% 
-  left_join(sentimentDf, by=c("tokens"="word")) %>% 
-  mutate(score = ifelse(is.na(score), 0, score)) %>% 
+  inner_join(sentimentDf, by=c("tokens"="word")) %>% 
   rename(Score=score)
 
 trump_full_text_sent <- trump_sentiment %>% 
   group_by(id) %>% 
   summarise(Score = sum(Score)) %>% 
   ungroup() %>% 
-  right_join(trump_twitter, by="id")
+  inner_join(trump_twitter, by="id")
 
 # plot sentiment over time ------------------------------------------------------------
 sentOverTimeGraph <- ggplot(data=trump_full_text_sent, aes(x=created_at, y=Score, colour=Score)) +
