@@ -70,7 +70,7 @@ cat("Most Negative Trump Tweets:\n\t",catMostNeg, "\n")
 # when is trumps favorite time to tweet -------------------------------------------------
 trump_tweet_times <- trump_full_text_sent %>% 
   mutate(weekday = wday(created_at, label=TRUE),
-         month   = month(created_at),
+         month   = month(created_at, label=TRUE),
          hour    = strftime(created_at,format = "%H"))
 
 plotSentByTime <- function(trump_tweet_times, timeGroupVar) {
