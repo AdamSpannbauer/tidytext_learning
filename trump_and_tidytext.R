@@ -20,7 +20,7 @@ trump_tokens <- trump_twitter %>%
                                 replacement = "")) %>% #rm urls
   tidytext::unnest_tokens(tokens, text) %>% #tokenize
   mutate(tokens = wordStem(tokens)) %>% 
-  filter(!(tokens %in% stop_words$word)) #rm stopwords
+  filter(!(tokens %in% c(stop_words$word, wordStem(stop_words$word)))) #rm stopwords
 
 # get most used words in trumps tweets ----------------------------------
 most_used_words <- trump_tokens %>% 
@@ -30,7 +30,9 @@ most_used_words <- trump_tokens %>%
   arrange(desc(n))
 
 # sentiment analysis -------------------------------------------------------------
-sentimentDf <- get_sentiments("afinn")
+sentimentDf <- get_sentiments("afinn") %>% 
+  mutate(word = wordStem(word)) %>% 
+  bind_rows(get_sentiments("afinn"))
 trump_sentiment <- trump_tokens %>% 
   left_join(sentimentDf, by=c("tokens"="word")) %>% 
   mutate(score = ifelse(is.na(score), 0, score)) %>% 

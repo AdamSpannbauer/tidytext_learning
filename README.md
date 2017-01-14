@@ -4,7 +4,7 @@
 Playing with fivethirtyeight trump tweet data to learn more about tidytext capabilities (and just to have some fun)
 
 ### findings
- * Not unlike Garfield, Trump doesn't seem to like Mondays (or Saturdays).  The sentiment of Trump's tweets on Mondays and Saturdays appears to be the most negative
+ * Not unlike Garfield, Trump doesn't seem to like Mondays (or Tuesdays).  The sentiment of Trump's tweets on Mondays and Saturdays appears to be the most negative
  * trump had a good October in 2015.  Not only did he tweet the most in 10/2015 but he also had the most positive sentiment in the month. (plan to look more into cause of positivity)
 
 ### data
