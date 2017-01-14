@@ -28,7 +28,7 @@ most_used_words <- trump_tokens %>%
   summarise(n=n()) %>% 
   ungroup() %>% 
   arrange(desc(n))
-  
+
 # sentiment analysis -------------------------------------------------------------
 sentimentDf <- get_sentiments("afinn")
 trump_sentiment <- trump_tokens %>% 
@@ -58,7 +58,7 @@ most_pos_trump <- trump_full_text_sent %>%
 
 catMostPos <- paste(collapse="\n\n\t", most_pos_trump)
 cat("Most Positive Trump Tweets:\n\t",catMostPos, "\n")
-  
+
 most_neg_trump <- trump_full_text_sent %>% 
   arrange(Score) %>% 
   head(n=5) %>% 
@@ -93,11 +93,17 @@ sentByHour  <- plotSentByTime(trump_tweet_times, hour)
 sentByDay   <- plotSentByTime(trump_tweet_times, weekday)
 sentByMonth <- plotSentByTime(trump_tweet_times, month)
 
+# save plots ------------------------------------------------------------------
+ggsave("sentOverTime.png", plot=sentOverTimeGraph)
+ggsave("sentByHour.png", plot=sentByHour)
+ggsave("sentByDay.png", plot=sentByDay)
+ggsave("sentByMonth.png", plot=sentByMonth)
+
 # plot everything ----------------------------------------------------------------
-grid.arrange(sentOverTimeGraph,
-             sentByHour,
-             sentByDay,
-             sentByMonth,
-             ncol=2)
+# grid.arrange(sentOverTimeGraph,
+#              sentByHour,
+#              sentByDay,
+#              sentByMonth,
+#              ncol=2)
 
 
