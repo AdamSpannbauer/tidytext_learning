@@ -53,7 +53,7 @@ sentOverTimeGraph <- ggplot(data=trump_full_text_sent, aes(x=created_at, y=Score
 # examine top 5 most positive & most negative tweets --------------------------------
 most_pos_trump <- trump_full_text_sent %>% 
   arrange(desc(Score)) %>% 
-  head(n=5) %>% 
+  head(n=3) %>% 
   .[["text"]]
 
 catMostPos <- paste(collapse="\n\n\t", most_pos_trump)
@@ -61,7 +61,7 @@ cat("Most Positive Trump Tweets:\n\t",catMostPos, "\n")
 
 most_neg_trump <- trump_full_text_sent %>% 
   arrange(Score) %>% 
-  head(n=5) %>% 
+  head(n=3) %>% 
   .[["text"]]
 
 catMostNeg <- paste(collapse="\n\n\t", most_neg_trump)
@@ -69,7 +69,7 @@ cat("Most Negative Trump Tweets:\n\t",catMostNeg, "\n")
 
 # when is trumps favorite time to tweet -------------------------------------------------
 trump_tweet_times <- trump_full_text_sent %>% 
-  mutate(weekday = wday(created_at),
+  mutate(weekday = wday(created_at, label=TRUE),
          month   = month(created_at),
          hour    = strftime(created_at,format = "%H"))
 
