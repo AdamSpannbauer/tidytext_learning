@@ -1,4 +1,5 @@
 # tidy trump
+### Trump Doesn't Like Mondays
 
 Playing with fivethirtyeight trump tweet data to learn more about tidytext capabilities (and just to have some fun)
 
