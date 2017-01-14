@@ -94,10 +94,10 @@ sentByDay   <- plotSentByTime(trump_tweet_times, weekday)
 sentByMonth <- plotSentByTime(trump_tweet_times, month)
 
 # save plots ------------------------------------------------------------------
-ggsave("sentOverTime.png", plot=sentOverTimeGraph)
-ggsave("sentByHour.png", plot=sentByHour)
-ggsave("sentByDay.png", plot=sentByDay)
-ggsave("sentByMonth.png", plot=sentByMonth)
+ggsave("plots/sentOverTime.png", plot=sentOverTimeGraph)
+ggsave("plots/sentByHour.png", plot=sentByHour)
+ggsave("plots/sentByDay.png", plot=sentByDay)
+ggsave("plots/sentByMonth.png", plot=sentByMonth)
 
 # plot everything ----------------------------------------------------------------
 # grid.arrange(sentOverTimeGraph,
